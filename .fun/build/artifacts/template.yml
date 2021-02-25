@@ -1,0 +1,30 @@
+ROSTemplateFormatVersion: '2015-09-01'
+Transform: 'Aliyun::Serverless-2018-04-03'
+Resources:
+  fc-dingtalk-demo:
+    Type: 'Aliyun::Serverless::Service'
+    Properties:
+      Description: fc dingtalk demo
+      InternetAccess: true
+      LogConfig:
+        Project: tannei-daily
+        Logstore: fc-log
+    func:
+      Type: 'Aliyun::Serverless::Function'
+      Properties:
+        Handler: 'example.App::handleRequest'
+        Initializer: 'example.App::initialize'
+        Runtime: java8
+        CodeUri: fc-dingtalk-demo/func
+        EnvironmentVariables:
+          DD_TOKEN: test
+          DD_AES_KEY: hWNT4nxL5hASpavEk8K99cNE1aMumqeUpMDNPmJDFPA
+          DD_APP_KEY: dinghmccsavm2kkafpin
+      Events:
+        httpTrigger:
+          Type: HTTP
+          Properties:
+            AuthType: ANONYMOUS
+            Methods:
+              - POST
+              - GET
